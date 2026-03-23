@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل التفاعلي لتعلم C++ | تلخيص دورة أبو هدهود</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Marked for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8fafc; /* light-slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .nav-item.active {
+            background-color: #e2e8f0;
+            border-right: 4px solid #3b82f6;
+            font-weight: 700;
+        }
+        /* Markdown Styles for AI Response */
+        .markdown-body p { margin-bottom: 1rem; }
+        .markdown-body ul { list-style-type: disc; margin-right: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body pre { background-color: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; direction: ltr; margin-bottom: 1rem; }
+        .markdown-body code { font-family: 'Fira Code', monospace; background-color: #e2e8f0; color: #dc2626; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+        .markdown-body pre code { background-color: transparent; color: inherit; padding: 0; }
+    </style>
+    <!-- Chosen Palette: Warm Neutral Light (Slate/Gray base with Blue/Amber accents) -->
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- Navigation Sidebar -->
+    <nav class="bg-white w-full md:w-64 md:h-screen flex-shrink-0 border-l border-slate-200 shadow-sm z-50 overflow-y-auto">
+        <div class="p-6 border-b border-slate-100">
+            <h1 class="text-2xl font-bold text-blue-600">C++ المرجع التفاعلي</h1>
+            <p class="text-xs text-slate-500 mt-2">ملخص دورة أبو هدهود</p>
+        </div>
+        <ul class="flex flex-col py-4 space-y-1">
+            <li><button onclick="scrollToSection('hero')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700 active">المقدمة</button></li>
+            <li><button onclick="scrollToSection('basics')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">الأساسيات والطباعة</button></li>
+            <li><button onclick="scrollToSection('variables')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">المتغيرات والذاكرة</button></li>
+            <li><button onclick="scrollToSection('input')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">مشاكل الإدخال (Buffer)</button></li>
+            <li><button onclick="scrollToSection('logic')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">المنطق والشروط</button></li>
+            <li><button onclick="scrollToSection('functions')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">الدوال (Value vs Ref)</button></li>
+            <li><button onclick="scrollToSection('structs')" class="nav-item w-full text-right px-6 py-3 hover:bg-slate-50 transition-colors duration-200 text-slate-700">الهياكل والمصفوفات المتقدمة</button></li>
+            <li><button onclick="scrollToSection('ai-assistant')" class="nav-item w-full text-right px-6 py-3 hover:bg-indigo-50 transition-colors duration-200 text-indigo-700 font-bold border-r-4 border-transparent hover:border-indigo-500">المساعد الذكي ✨</button></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="main-scroll" class="flex-1 h-screen overflow-y-auto scroll-smooth p-4 md:p-8 lg:p-12 relative">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="max-w-4xl mx-auto mb-20 pt-10">
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-10 text-white shadow-xl">
+                <h2 class="text-4xl font-extrabold mb-4">رحلة تعلم C++</h2>
+                <p class="text-lg text-blue-100 mb-6 leading-relaxed">
+                    هذا التطبيق هو دليلك التفاعلي لمراجعة أهم المفاهيم التي تم شرحها في الدورة. 
+                    من أساسيات الطباعة، مروراً بمشاكل الذاكرة والإدخال، وصولاً إلى التعامل المعقد مع الهياكل والمصفوفات.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="scrollToSection('variables')" class="bg-white text-blue-700 px-6 py-2 rounded-full font-bold hover:bg-blue-50 transition shadow-lg">ابدأ المراجعة</button>
+                    <button onclick="scrollToSection('ai-assistant')" class="bg-indigo-500 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-600 transition shadow-lg flex items-center gap-2">
+                        <span>جرب معلم الذكاء الاصطناعي</span>
+                        <span>✨</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Basics Section -->
+        <section id="basics" class="max-w-4xl mx-auto mb-24">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded font-bold code-font">01</span>
+                <h3 class="text-3xl font-bold text-slate-800">الهيكل الأساسي والطباعة</h3>
+            </div>
+            
+            <p class="text-lg text-slate-600 mb-8 leading-loose">
+                في لغة C++، نعتمد على مكتبة <span class="code-font bg-slate-100 px-1 rounded text-red-500">iostream</span> للتعامل مع الإدخال والإخراج. 
+                أحد أهم الفروقات التي يجب فهمها هو الفرق بين طرق إنهاء السطر، حيث يؤثر ذلك على أداء البرنامج.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Code Card -->
+                <div class="bg-slate-900 rounded-xl p-6 shadow-lg text-slate-300 font-mono text-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                    <pre><code class="language-cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // الطريقة الأسرع
+    cout << "Hello World\n"; 
+
+    // الطريقة الأبطأ (مع flush)
+    cout << "End of Line" << endl; 
+    
+    return 0;
+}
+                    </code></pre>
+                </div>
+
+                <!-- Interactive Comparison -->
+                <div class="bg-white rounded-xl p-6 shadow-md border border-slate-100 flex flex-col justify-center">
+                    <h4 class="font-bold text-lg mb-4 text-center">مقارنة الأداء: \n vs endl</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-100">
+                            <span class="code-font font-bold text-green-700">\n</span>
+                            <span class="text-sm text-green-800">ينزل سطراً فقط (سريع جداً)</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-amber-50 rounded-lg border border-amber-100">
+                            <span class="code-font font-bold text-amber-700">endl</span>
+                            <span class="text-sm text-amber-800">ينزل سطراً + يفرغ الذاكرة (أبطأ)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Variables & Memory Section -->
+        <section id="variables" class="max-w-4xl mx-auto mb-24">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded font-bold code-font">02</span>
+                <h3 class="text-3xl font-bold text-slate-800">المتغيرات والذاكرة</h3>
+            </div>
+            
+            <p class="text-lg text-slate-600 mb-8">
+                اختيار اسم المتغير وفهم حجم البيانات في الذاكرة أمران حاسمان. استخدم الأداة أدناه للتحقق من صحة أسماء المتغيرات، 
+                وراجع الرسم البياني لمعرفة أحجام أنواع البيانات المختلفة.
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Variable Name Validator -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-blue-500">
+                    <h4 class="font-bold text-lg mb-4">مدقق أسماء المتغيرات</h4>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">اكتب اسم متغير لتختبره:</label>
+                        <input type="text" id="varInput" placeholder="مثال: my_age" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none code-font text-left" oninput="validateVariable()">
+                    </div>
+                    <div id="varResult" class="p-3 rounded-lg bg-slate-100 text-slate-500 text-sm font-medium transition-all duration-300">
+                        النتيجة ستظهر هنا...
+                    </div>
+                    <ul class="mt-4 text-xs text-slate-400 space-y-1 list-disc list-inside">
+                        <li>لا يمكن أن يبدأ برقم.</li>
+                        <li>لا يحتوي على مسافات.</li>
+                        <li>لا يحتوي على رموز خاصة (ماعدا _).</li>
+                        <li>غير مسموح بالكلمات المحجوزة (مثل int).</li>
+                    </ul>
+                </div>
+
+                <!-- Sizeof Chart -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-indigo-500">
+                    <h4 class="font-bold text-lg mb-2">أحجام البيانات (sizeof) بالبايت</h4>
+                    <p class="text-sm text-slate-500 mb-4">كم مساحة الذاكرة التي يحجزها كل نوع؟</p>
+                    <div class="chart-container">
+                        <canvas id="sizeofChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Buffer Problem Section -->
+        <section id="input" class="max-w-4xl mx-auto mb-24">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded font-bold code-font">03</span>
+                <h3 class="text-3xl font-bold text-slate-800">مشاكل الإدخال (The Ignore Problem)</h3>
+            </div>
+
+            <p class="text-lg text-slate-600 mb-6">
+                عند استخدام <span class="code-font bg-slate-100 px-1 text-red-600">cin</span> لقراءة رقم، يتبقى في الذاكرة المؤقتة (buffer) رمز السطر الجديد <span class="code-font">\n</span>. 
+                إذا تلاه أمر <span class="code-font text-blue-600">getline</span>، سيقوم بقراءة هذا السطر الفارغ فوراً ويتجاهل إدخالك.
+            </p>
+
+            <!-- Interactive Buffer Simulator -->
+            <div class="bg-slate-800 rounded-2xl p-6 md:p-8 text-white shadow-2xl">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 space-y-4">
+                        <h4 class="text-xl font-bold text-yellow-400 border-b border-slate-600 pb-2">محاكاة الكود</h4>
+                        
+                        <!-- Step 1 -->
+                        <div class="bg-slate-700/50 p-3 rounded border-l-4 border-blue-500" id="step1-box">
+                            <code class="block text-sm text-blue-300">cin >> id;</code>
+                            <input type="number" id="demoId" placeholder="أدخل رقم الهوية" class="mt-2 w-full bg-slate-900 border border-slate-600 rounded p-2 text-white">
+                        </div>
+
+                        <!-- Step 2: The Solution Toggle -->
+                        <div class="flex items-center gap-3 py-2">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="ignoreToggle" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                <span class="mr-3 text-sm font-medium text-slate-300 code-font">cin.ignore();</span>
+                            </label>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="bg-slate-700/50 p-3 rounded border-l-4 border-purple-500" id="step3-box">
+                            <code class="block text-sm text-purple-300">getline(cin, name);</code>
+                            <input type="text" id="demoName" placeholder="أدخل الاسم" class="mt-2 w-full bg-slate-900 border border-slate-600 rounded p-2 text-white disabled:opacity-50" disabled>
+                        </div>
+
+                        <button onclick="runInputDemo()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition">تشغيل المحاكاة</button>
+                    </div>
+
+                    <!-- Visualizer Console -->
+                    <div class="flex-1 bg-black rounded-lg p-4 font-mono text-sm border border-slate-700 flex flex-col">
+                        <div class="text-slate-400 border-b border-slate-800 pb-2 mb-2">Console Output</div>
+                        <div id="consoleOutput" class="flex-1 text-green-400 whitespace-pre-wrap leading-relaxed">بانتظار التشغيل...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logic Section -->
+        <section id="logic" class="max-w-4xl mx-auto mb-24">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded font-bold code-font">04</span>
+                <h3 class="text-3xl font-bold text-slate-800">العمليات المنطقية</h3>
+            </div>
+            <p class="text-lg text-slate-600 mb-6">
+                جرب تغيير قيم المدخلات A و B لرؤية النتائج المباشرة للعمليات المنطقية الأساسية.
+            </p>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <div class="flex justify-center gap-8 mb-8">
+                    <!-- Toggle A -->
+                    <div class="text-center">
+                        <div class="mb-2 font-bold text-slate-700">INPUT A</div>
+                        <button id="btnA" onclick="toggleLogic('A')" class="w-20 h-10 rounded-full bg-red-500 text-white font-bold transition-colors">FALSE</button>
+                    </div>
+                    <!-- Toggle B -->
+                    <div class="text-center">
+                        <div class="mb-2 font-bold text-slate-700">INPUT B</div>
+                        <button id="btnB" onclick="toggleLogic('B')" class="w-20 h-10 rounded-full bg-red-500 text-white font-bold transition-colors">FALSE</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="p-4 bg-slate-50 rounded border border-slate-200">
+                        <div class="text-sm text-slate-500 mb-1 code-font">A && B (AND)</div>
+                        <div id="resAND" class="text-xl font-bold text-red-600">False</div>
+                        <div class="text-xs text-slate-400 mt-1">كلاهما True</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded border border-slate-200">
+                        <div class="text-sm text-slate-500 mb-1 code-font">A || B (OR)</div>
+                        <div id="resOR" class="text-xl font-bold text-red-600">False</div>
+                        <div class="text-xs text-slate-400 mt-1">أحدهما True</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded border border-slate-200">
+                        <div class="text-sm text-slate-500 mb-1 code-font">!A (NOT A)</div>
+                        <div id="resNOT" class="text-xl font-bold text-green-600">True</div>
+                        <div class="text-xs text-slate-400 mt-1">عكس القيمة</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Functions Section -->
+        <section id="functions" class="max-w-4xl mx-auto mb-24">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded font-bold code-font">05</span>
+                <h3 class="text-3xl font-bold text-slate-800">الدوال: التمرير بالقيمة والمرجع</h3>
+            </div>
+            
+            <p class="text-lg text-slate-600 mb-8">
+                هذا هو الفرق الجوهري الذي يسبب الكثير من الأخطاء. 
+                <span class="font-bold text-blue-600">Pass by Value</span> يأخذ نسخة (لا يؤثر على الأصل)، بينما 
+                <span class="font-bold text-purple-600">Pass by Reference (&)</span> يتعامل مع العنوان الأصلي (يغير الأصل).
+            </p>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="bg-slate-100 p-4 border-b border-slate-200 flex justify-between items-center">
+                    <h4 class="font-bold text-slate-700">محاكاة دالة التبديل Swap Function</h4>
+                    <div class="flex gap-2 bg-white p-1 rounded-lg border border-slate-300">
+                        <button onclick="setMode('value')" id="modeValue" class="px-4 py-1 rounded-md text-sm font-bold bg-blue-100 text-blue-700 transition">By Value</button>
+                        <button onclick="setMode('ref')" id="modeRef" class="px-4 py-1 rounded-md text-sm font-bold text-slate-500 hover:bg-slate-50 transition">By Reference (&)</button>
+                    </div>
+                </div>
+
+                <div class="p-8 grid md:grid-cols-2 gap-12 relative">
+                    <!-- Main Memory -->
+                    <div class="relative z-10">
+                        <div class="absolute -top-4 right-0 bg-slate-200 px-2 py-1 text-xs rounded font-bold text-slate-600">Main() Scope</div>
+                        <div class="bg-slate-50 border-2 border-slate-300 border-dashed rounded-xl p-6 h-full flex flex-col justify-center items-center gap-4">
+                            <div class="text-center w-full">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Variable X</label>
+                                <input type="number" id="mainX" value="10" class="text-center text-2xl font-bold w-24 p-2 bg-white border border-slate-300 rounded shadow-inner" readonly>
+                            </div>
+                            <div class="
